@@ -1,0 +1,7 @@
+django>=4.2,<5.2
+djangorestframework
+django-cors-headers
+whitenoise
+gunicorn
+python-decouple
+psycopg2-binary
