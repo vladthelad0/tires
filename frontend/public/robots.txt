@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block ticket tracking pages — customer-specific, no SEO value
+Disallow: /track/
+
+# Sitemap location — UPDATE domain before deploying
+Sitemap: https://rapidtireservice.com/sitemap.xml

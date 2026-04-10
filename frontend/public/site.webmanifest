@@ -1,0 +1,16 @@
+{
+  "name": "Rapid Tire Service",
+  "short_name": "Rapid Tire",
+  "description": "Mobile tire repair and replacement in San Francisco Bay Area.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#fed400",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}
