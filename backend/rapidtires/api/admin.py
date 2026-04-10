@@ -31,25 +31,37 @@ class ServiceRequestAdmin(admin.ModelAdmin):
     ]
     list_filter = ['status', 'issue_type']
     search_fields = ['ticket_code', 'name', 'phone', 'address']
-    readonly_fields = ['id', 'ticket_code', 'created_at', 'updated_at', 'notified', 'maps_link']
+
+    # maps_link must only appear in readonly_fields, NOT in fields — adding a
+    # callable to both causes a Django 5.x admin rendering conflict.
+    # latitude/longitude are readonly so operators can't accidentally corrupt coords.
+    readonly_fields = [
+        'id', 'ticket_code', 'maps_link',
+        'latitude', 'longitude',
+        'created_at', 'updated_at', 'notified',
+    ]
     fields = [
-        'id', 'ticket_code', 'name', 'phone', 'address',
-        'latitude', 'longitude', 'maps_link', 'issue_type', 'tire_size',
-        'status', 'status_note', 'created_at', 'updated_at', 'notified',
+        'id', 'ticket_code',
+        'name', 'phone', 'address',
+        'latitude', 'longitude', 'maps_link',
+        'issue_type', 'tire_size',
+        'status', 'status_note',
+        'created_at', 'updated_at', 'notified',
     ]
     actions = [clear_completed_cancelled, clear_all_tickets]
 
-    @admin.display(description='Open in Maps')
+    @admin.display(description='📍 Navigate')
     def maps_link(self, obj):
         if obj.latitude and obj.longitude:
             url = f"https://www.google.com/maps?q={obj.latitude},{obj.longitude}"
             return format_html(
                 '<a href="{}" target="_blank" rel="noopener noreferrer" '
-                'style="background:#fed400;color:#111;padding:3px 10px;border-radius:4px;'
-                'font-weight:bold;text-decoration:none;white-space:nowrap;">📍 Navigate</a>',
-                url
+                'style="background:#fed400;color:#111111;padding:4px 12px;'
+                'border-radius:4px;font-weight:bold;text-decoration:none;'
+                'white-space:nowrap;display:inline-block;">📍 Open in Maps</a>',
+                url,
             )
-        return format_html('<span style="color:#999">No pin</span>')
+        return '—'
 
 
 @admin.register(CallEvent)
